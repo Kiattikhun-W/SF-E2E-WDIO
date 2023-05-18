@@ -1,0 +1,22 @@
+# Logs
+log/
+*.log
+
+# Reports
+reports/
+*.html
+
+# Screenshots
+screenshots/
+*.png
+
+# Node.js
+node_modules/
+npm-debug.log
+
+# WebdriverIO
+/.config/
+/.wdio-*
+
+# Visual Studio Code
+.vscode/
