@@ -29,6 +29,7 @@ class MoviePage extends Page {
 
       if (cinemaEachName.trim() === selectedCinema) {
         await this.inputTextSearchCinema.setValue(selectedCinema);
+        break;
       }
     }
   }
@@ -36,10 +37,14 @@ class MoviePage extends Page {
     const btnShowTimeActive = await this.btnShowTimeActive;
     const cinemaName = await this.cinemaName;
 
-    await btnShowTimeActive.scrollIntoView();
+    await btnShowTimeActive.scrollIntoView({
+      block: "center",
+      inline: "center",
+    });
 
     await browser.waitUntil(
-      async () => await cinemaName.isDisplayedInViewport()
+      async () => await cinemaName.isDisplayedInViewport(),
+      { timeoutMsg: "cinemaName is notDisplay in view port" }
     );
 
     await btnShowTimeActive.click();

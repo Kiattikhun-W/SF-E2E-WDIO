@@ -14,7 +14,8 @@ describe("Movie should be selected", () => {
   it("landingpage can be select Seat", async () => {
     const movieDetail: MovieDetail = {
       movieName: "Fast & Furious X",
-      locationCinema: "SF CINEMA Robinson Lifestyle Buriram",
+      // locationCinema: "SF CINEMA Robinson Lifestyle Buriram",
+      locationCinema: "SF CINEMA Robinson Lifestyle Surin",
     };
 
     await landingPage.ajsModal.waitForExist({ timeout: 5000 });
@@ -48,6 +49,7 @@ describe("Movie should be selected", () => {
 
     await expect(browser).toHaveUrlContaining("select-seat");
     await SelectSeat.validateSameCinema(movieDetail);
+    await SelectSeat.reserveSeat2("N2", "N3");
     await browser.pause(2000);
   });
 
