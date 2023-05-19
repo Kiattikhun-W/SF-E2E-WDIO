@@ -15,7 +15,7 @@ describe("Movie should be selected", () => {
     const movieDetail: MovieDetail = {
       movieName: "Fast & Furious X",
       // locationCinema: "SF CINEMA Robinson Lifestyle Buriram",
-      locationCinema: "SF CINEMA Robinson Lifestyle Surin".trim(),
+      locationCinema: "SF CINEMA Robinson Lifestyle Buriram",
     };
 
     const seatDetails: SeatDetails[] = [
@@ -27,7 +27,7 @@ describe("Movie should be selected", () => {
         },
       },
       {
-        seatName: ["CC7", "CC8"],
+        seatName: ["AA11", "AA12"],
         type: {
           name: "First Class (Pair)",
           price: 2400,

@@ -34,22 +34,41 @@ class SelectSeat extends Page {
     await expect(movieName).toEqual(selectedMovie);
   }
 
-  public async reserveSeat(SeatDetails: SeatDetails[]) {
-    const prices: number[] = [];
-    for (let seatDetail of SeatDetails) {
-      if (!isSeatNameArray(seatDetail["seatName"])) {
-        const seatButton = await this.seatButton(seatDetail["seatName"]);
+  public async reserveSeat(seatDetails: SeatDetails[]) {
+    let seatButton = await this.seatButton(null);
+
+    for (let seatDetail of seatDetails) {
+      const seatNames = isSeatNameArray(seatDetail.seatName)
+        ? seatDetail.seatName
+        : [seatDetail.seatName];
+
+      for (const seatName of seatNames) {
+        seatButton = await this.seatButton(seatName);
         await seatButton.scrollIntoView({ block: "center" });
+
+        if (seatDetail.type.name.toLocaleLowerCase().includes("pair")) {
+          if (await seatButton.isClickable()) {
+            await seatButton.click();
+            await expect(seatButton).toHaveAttributeContaining(
+              "class",
+              "seat-selected"
+            );
+            console.log(`💯Seat ${seatName} selected successfully.`);
+          } else {
+            console.log(`😈Seat ${seatName} is not available.`);
+          }
+          break; // Exit the loop after the first click
+        }
+
         if (await seatButton.isClickable()) {
-          //use expect(button).isClickable
           await seatButton.click();
           await expect(seatButton).toHaveAttributeContaining(
             "class",
             "seat-selected"
           );
-          console.log(`💯Seat ${seatDetail} selected successfully.`);
+          console.log(`💯Seat ${seatName} selected successfully.`);
         } else {
-          console.log(`😈Seat ${seatDetail} is not available.`);
+          console.log(`😈Seat ${seatName} is not available.`);
         }
       }
     }
