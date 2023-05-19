@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { MovieDetail } from "../pageobjects/interface/movie.js";
+import { MovieDetail, SeatDetails } from "../pageobjects/interface/movie.js";
 
 import landingPage from "../pageobjects/landing.page.js";
 import MoviePage from "../pageobjects/movie.page.js";
@@ -18,6 +18,22 @@ describe("Movie should be selected", () => {
       locationCinema: "SF CINEMA Robinson Lifestyle Surin".trim(),
     };
 
+    const seatDetails: SeatDetails[] = [
+      {
+        seatName: "H15",
+        type: {
+          name: "Deluxe",
+          price: 120,
+        },
+      },
+      {
+        seatName: ["CC7", "CC8"],
+        type: {
+          name: "First Class (Pair)",
+          price: 2400,
+        },
+      },
+    ];
     await landingPage.ajsModal.waitForExist({ timeout: 5000 });
     await landingPage.ajsModalButton.click();
 
@@ -48,7 +64,7 @@ describe("Movie should be selected", () => {
 
     await expect(browser).toHaveUrlContaining("select-seat");
     await SelectSeat.validateSameCinema(movieDetail);
-    await SelectSeat.reserveSeat("E4", "E5", "E6");
+    await SelectSeat.reserveSeat(seatDetails);
     await browser.pause(2000);
   });
 
