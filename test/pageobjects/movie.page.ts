@@ -24,9 +24,9 @@ class MoviePage extends Page {
     const btnShowTimeActive = await this.btnShowTimeActive;
     await this.inputTextSearchCinema.setValue(selectedCinema);
 
+    const cinemaNameElem = await this.cinemaName;
     await browser.waitUntil(
       async () => {
-        const cinemaNameElem = await this.cinemaName;
         const cinemaNameText = (await cinemaNameElem.getText())
           .replace("star", "")
           .trim();
@@ -35,11 +35,11 @@ class MoviePage extends Page {
       {
         timeout: 5000,
         interval: 500,
-        timeoutMsg: `a`,
+        timeoutMsg: `title not changed`,
       }
     );
 
-    (await this.cinemaName).scrollIntoView({ block: "center" });
+    await cinemaNameElem.scrollIntoView({ block: "center" });
 
     await btnShowTimeActive.click();
   }

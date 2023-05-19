@@ -1,5 +1,7 @@
 import Page from "./page.js";
 import { MovieDetail } from "./interface/movie.js";
+import { sortSeats } from "../helper/helper.js";
+
 class SelectSeat extends Page {
   public get cinemaName() {
     return $(`//p[@class='cinema']`);
@@ -17,6 +19,10 @@ class SelectSeat extends Page {
     return $(`//ul[@class='selected-seat']`);
   }
 
+  public get totalPrice() {
+    return $(`//p[@class='total-price']`);
+  }
+
   public async validateSameCinema({
     locationCinema: selectedCinema,
     movieName: selectedMovie,
@@ -29,6 +35,7 @@ class SelectSeat extends Page {
   }
 
   public async reserveSeat(...seatNames: string[]) {
+    const prices: number[] = [];
     for (let seatName of seatNames) {
       const seatButton = await this.seatButton(seatName);
       await seatButton.scrollIntoView({ block: "center" });
