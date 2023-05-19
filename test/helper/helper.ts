@@ -28,3 +28,6 @@ export function sortSeats(seats: string[]): string[] {
 
   return seats.sort(compareSeats);
 }
+export function isSeatNameArray(seat: any): seat is string[] {
+  return Array.isArray(seat);
+}

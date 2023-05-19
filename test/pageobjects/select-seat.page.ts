@@ -1,5 +1,5 @@
 import Page from "./page.js";
-import { MovieDetail } from "./interface/movie.js";
+import { MovieDetail, SeatDetails } from "./interface/movie.js";
 import { sortSeats } from "../helper/helper.js";
 
 class SelectSeat extends Page {
@@ -34,10 +34,11 @@ class SelectSeat extends Page {
     await expect(movieName).toEqual(selectedMovie);
   }
 
-  public async reserveSeat(...seatNames: string[]) {
+  public async reserveSeat(SeatDetails: SeatDetails[]) {
     const prices: number[] = [];
-    for (let seatName of seatNames) {
-      const seatButton = await this.seatButton(seatName);
+    for (let seatDetail of SeatDetails) {
+      // if(typeof seatDetail['seatName'] === )
+      const seatButton = await this.seatButton("H1");
       await seatButton.scrollIntoView({ block: "center" });
       if (await seatButton.isClickable()) {
         //use expect(button).isClickable
@@ -46,9 +47,9 @@ class SelectSeat extends Page {
           "class",
           "seat-selected"
         );
-        console.log(`💯Seat ${seatName} selected successfully.`);
+        console.log(`💯Seat ${seatDetail} selected successfully.`);
       } else {
-        console.log(`😈Seat ${seatName} is not available.`);
+        console.log(`😈Seat ${seatDetail} is not available.`);
       }
     }
   }
