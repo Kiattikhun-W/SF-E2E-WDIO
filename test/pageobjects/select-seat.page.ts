@@ -37,7 +37,7 @@ class SelectSeat extends Page {
   public async reserveSeat(seatDetails: SeatDetails[]) {
     let seatButton = await this.seatButton(null);
 
-    for (let seatDetail of seatDetails) {
+    for (const seatDetail of seatDetails) {
       const seatNames = isSeatNameArray(seatDetail.seatName)
         ? seatDetail.seatName
         : [seatDetail.seatName];
@@ -46,29 +46,21 @@ class SelectSeat extends Page {
         seatButton = await this.seatButton(seatName);
         await seatButton.scrollIntoView({ block: "center" });
 
-        if (seatDetail.type.name.toLocaleLowerCase().includes("pair")) {
-          if (await seatButton.isClickable()) {
-            await seatButton.click();
-            await expect(seatButton).toHaveAttributeContaining(
-              "class",
-              "seat-selected"
-            );
-            console.log(`💯Seat ${seatName} selected successfully.`);
-          } else {
-            console.log(`😈Seat ${seatName} is not available.`);
-          }
-          break; // Exit the loop after the first click
+        const isPairSeat = seatDetail.type.name.toLowerCase().includes("pair");
+        if (!(await seatButton.isClickable())) {
+          console.log(`😈Seat ${seatName} is not available.`);
+          continue;
         }
 
-        if (await seatButton.isClickable()) {
-          await seatButton.click();
-          await expect(seatButton).toHaveAttributeContaining(
-            "class",
-            "seat-selected"
-          );
-          console.log(`💯Seat ${seatName} selected successfully.`);
-        } else {
-          console.log(`😈Seat ${seatName} is not available.`);
+        await seatButton.click();
+        await expect(seatButton).toHaveAttributeContaining(
+          "class",
+          "seat-selected"
+        );
+        console.log(`💯Seat ${seatName} selected successfully.`);
+
+        if (isPairSeat) {
+          break; // Exit the loop after the first click
         }
       }
     }

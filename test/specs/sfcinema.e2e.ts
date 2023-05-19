@@ -26,11 +26,19 @@ describe("Movie should be selected", () => {
           price: 120,
         },
       },
+
       {
-        seatName: ["AA11", "AA12"],
+        seatName: ["AA1", "AA2"],
         type: {
           name: "First Class (Pair)",
           price: 2400,
+        },
+      },
+      {
+        seatName: "F6",
+        type: {
+          name: "Deluxe",
+          price: 120,
         },
       },
     ];
