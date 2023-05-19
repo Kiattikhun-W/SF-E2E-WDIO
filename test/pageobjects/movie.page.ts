@@ -6,7 +6,7 @@ class MoviePage extends Page {
   }
 
   public get inputTextSearchCinema() {
-    return $(`//div[@class='input-wrapper']/input`);
+    return $(`//div[contains(@class,'input-wrapper')]/input`);
   }
 
   public get cinemaName() {
@@ -21,31 +21,25 @@ class MoviePage extends Page {
     return $(`(//button[@class='button button-showtime active'])[1]`);
   }
   public async selectCinema({ locationCinema: selectedCinema }: MovieDetail) {
-    const cinemas = await this.cinemaLocation;
-
-    for (const cinema of cinemas) {
-      let cinemaEachName = await cinema.getText();
-      cinemaEachName = cinemaEachName.replace("star", "");
-
-      if (cinemaEachName.trim() === selectedCinema) {
-        await this.inputTextSearchCinema.setValue(selectedCinema);
-        break;
-      }
-    }
-  }
-  public async SelectFirstTheater() {
     const btnShowTimeActive = await this.btnShowTimeActive;
-    const cinemaName = await this.cinemaName;
-
-    await btnShowTimeActive.scrollIntoView({
-      block: "center",
-      inline: "center",
-    });
+    await this.inputTextSearchCinema.setValue(selectedCinema);
 
     await browser.waitUntil(
-      async () => await cinemaName.isDisplayedInViewport(),
-      { timeoutMsg: "cinemaName is notDisplay in view port" }
+      async () => {
+        const cinemaNameElem = await this.cinemaName;
+        const cinemaNameText = (await cinemaNameElem.getText())
+          .replace("star", "")
+          .trim();
+        return cinemaNameText === selectedCinema;
+      },
+      {
+        timeout: 5000,
+        interval: 500,
+        timeoutMsg: `a`,
+      }
     );
+
+    (await this.cinemaName).scrollIntoView({ block: "center" });
 
     await btnShowTimeActive.click();
   }

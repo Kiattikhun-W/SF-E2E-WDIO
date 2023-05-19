@@ -28,7 +28,7 @@ class SelectSeat extends Page {
     await expect(movieName).toEqual(selectedMovie);
   }
 
-  public async reserveSeat2(...seatNames: string[]) {
+  public async reserveSeat(...seatNames: string[]) {
     for (let seatName of seatNames) {
       const seatButton = await this.seatButton(seatName);
       await seatButton.scrollIntoView({ block: "center" });

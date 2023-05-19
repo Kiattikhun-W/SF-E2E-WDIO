@@ -15,7 +15,7 @@ describe("Movie should be selected", () => {
     const movieDetail: MovieDetail = {
       movieName: "Fast & Furious X",
       // locationCinema: "SF CINEMA Robinson Lifestyle Buriram",
-      locationCinema: "SF CINEMA Robinson Lifestyle Surin",
+      locationCinema: "SF CINEMA Robinson Lifestyle Surin".trim(),
     };
 
     await landingPage.ajsModal.waitForExist({ timeout: 5000 });
@@ -45,11 +45,10 @@ describe("Movie should be selected", () => {
       }
     );
     await MoviePage.selectCinema(movieDetail);
-    await MoviePage.SelectFirstTheater();
 
     await expect(browser).toHaveUrlContaining("select-seat");
     await SelectSeat.validateSameCinema(movieDetail);
-    await SelectSeat.reserveSeat2("N2", "N3");
+    await SelectSeat.reserveSeat("E4", "E5", "E6");
     await browser.pause(2000);
   });
 
