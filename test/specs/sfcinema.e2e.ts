@@ -64,7 +64,7 @@ describe("Movie should be selected", () => {
 
     await expect(browser).toHaveUrlContaining("select-seat");
     await SelectSeat.validateSameCinema(movieDetail);
-    await SelectSeat.reserveSeat("H1");
+    await SelectSeat.reserveSeat(seatDetails);
     await browser.pause(2000);
   });
 

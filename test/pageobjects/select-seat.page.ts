@@ -1,6 +1,6 @@
 import Page from "./page.js";
 import { MovieDetail, SeatDetails } from "./interface/movie.js";
-import { sortSeats } from "../helper/helper.js";
+import { sortSeats, isSeatNameArray } from "../helper/helper.js";
 
 class SelectSeat extends Page {
   public get cinemaName() {
@@ -37,19 +37,20 @@ class SelectSeat extends Page {
   public async reserveSeat(SeatDetails: SeatDetails[]) {
     const prices: number[] = [];
     for (let seatDetail of SeatDetails) {
-      // if(typeof seatDetail['seatName'] === )
-      const seatButton = await this.seatButton("H1");
-      await seatButton.scrollIntoView({ block: "center" });
-      if (await seatButton.isClickable()) {
-        //use expect(button).isClickable
-        await seatButton.click();
-        await expect(seatButton).toHaveAttributeContaining(
-          "class",
-          "seat-selected"
-        );
-        console.log(`💯Seat ${seatDetail} selected successfully.`);
-      } else {
-        console.log(`😈Seat ${seatDetail} is not available.`);
+      if (!isSeatNameArray(seatDetail["seatName"])) {
+        const seatButton = await this.seatButton(seatDetail["seatName"]);
+        await seatButton.scrollIntoView({ block: "center" });
+        if (await seatButton.isClickable()) {
+          //use expect(button).isClickable
+          await seatButton.click();
+          await expect(seatButton).toHaveAttributeContaining(
+            "class",
+            "seat-selected"
+          );
+          console.log(`💯Seat ${seatDetail} selected successfully.`);
+        } else {
+          console.log(`😈Seat ${seatDetail} is not available.`);
+        }
       }
     }
   }
